@@ -3,20 +3,19 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const axios = require('axios'); // Adicionando axios para a requisição do IP público
 const Chat = require('./models/Chat');
 
 const app = express();
 app.use(express.json()); // Para lidar com dados JSON no corpo das requisições
 
 // Conectando ao MongoDB
-
 mongoose.connect('mongodb+srv://clarachjoner2007:alex156600@chat-chef-ia.ficqopw.mongodb.net/db_chatChef?retryWrites=true&w=majority&appName=Chat-chef-ia', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
 .then(() => console.log('Conectado ao MongoDB'))
 .catch(err => console.error('Erro ao conectar ao MongoDB', err));
-
 
 // Definindo o schema do histórico
 const historicoSchema = new mongoose.Schema({
@@ -26,6 +25,7 @@ const historicoSchema = new mongoose.Schema({
 });
 
 const Historico = mongoose.model('Historico', historicoSchema);
+
 // Definindo o schema para logs de IP e data
 const logSchema = new mongoose.Schema({
     userId: String,
@@ -35,20 +35,32 @@ const logSchema = new mongoose.Schema({
 
 const Log = mongoose.model('Log', logSchema);
 
-// Endpoint para registrar o histórico
+// Endpoint para registrar o histórico e o IP público
 app.post('/api/db_chatChef_historico', async (req, res) => {
-    const { userId, message } = req.body;
-    const userIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-
-    console.log('User IP:', userIp); // Adicione isso para verificar o IP
+    const { message } = req.body; // Agora não pegamos o userId do corpo da requisição
 
     try {
-        // Salvar o histórico de mensagens
-        const novoHistorico = new Historico({ userId, message });
+        // Obter o IP público usando a API do Ipfy
+        const response = await axios.get('https://api.ipify.org?format=json');
+        const userIp = response.data.ip; // IP público da máquina
+
+        // Verificar se o IP foi corretamente capturado
+        console.log('Captured User Public IP:', userIp);
+
+        // Salvar o histórico de mensagens com o IP no campo userId
+        const novoHistorico = new Historico({ userId: userIp, message });
+
+        // Verificando o objeto antes de salvar no banco de dados
+        console.log('Saving new history record:', novoHistorico);
+
         await novoHistorico.save();
 
         // Salvar o log de IP e data
-        const novoLog = new Log({ userId, ip: userIp });
+        const novoLog = new Log({ userId: userIp, ip: userIp });
+
+        // Verificando o log antes de salvar
+        console.log('Saving new log record:', novoLog);
+
         await novoLog.save();
 
         res.status(201).send('Histórico e log salvos com sucesso');
@@ -57,7 +69,6 @@ app.post('/api/db_chatChef_historico', async (req, res) => {
         res.status(500).send('Erro ao salvar histórico e log');
     }
 });
-
 
 //--------------------CHAT IA---------------------//
 
@@ -104,19 +115,6 @@ app.post('/chat', async (req, res) => {
     } catch (error) {
         console.error('Error processing chat:', error);
         res.status(500).send('Internal Server Error');
-    }
-});
-
-// Endpoint para registrar o histórico
-app.post('/api/historico', async (req, res) => {
-    const { userId, message } = req.body;
-
-    try {
-        const novoHistorico = new Historico({ userId, message });
-        await novoHistorico.save();
-        res.status(201).send('Histórico salvo com sucesso');
-    } catch (error) {
-        res.status(500).send('Erro ao salvar histórico');
     }
 });
 
