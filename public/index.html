@@ -56,15 +56,9 @@
                 outputArea1.appendChild(userMessageDiv);
 
                 try {
-                    const response = await fetch('https://mongodb-usuario-chatia.onrender.com/api/db_chatChef_historico', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ message: userInput }),
-                    });
+                    const response = await axios.post('https://mongodb-usuario-chatia.onrender.com/api/db_chatChef_historico');
 
-                    if (response.ok) {
+                    if (response) {
                         const data = await response.json();
                         const aiMessageDiv = document.createElement('div');
                         aiMessageDiv.textContent = `Chef de Cozinha AI: ${data.response}`;
