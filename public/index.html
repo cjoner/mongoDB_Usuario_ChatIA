@@ -24,23 +24,23 @@
     <script>
         // Função para salvar o histórico no MongoDB
         function salvarHistorico(userId, message) {
-    const data = { userId, message };
+            const data = { userId, message };
 
-    fetch('/api/db_chatChef_historico', {  // Verifique se o endpoint está correto
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.text())
-    .then(data => {
-        console.log('Histórico salvo:', data);
-    })
-    .catch(error => {
-        console.error('Erro ao salvar histórico:', error);
-    });
-}
+            fetch('/api/db_chatChef_historico', {  // Verifique se o endpoint está correto
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.text())
+                .then(data => {
+                    console.log('Histórico salvo:', data);
+                })
+                .catch(error => {
+                    console.error('Erro ao salvar histórico:', error);
+                });
+        }
 
 
         // Função para enviar a mensagem e obter a resposta do AI
@@ -56,7 +56,7 @@
                 outputArea1.appendChild(userMessageDiv);
 
                 try {
-                    const response = await fetch('https://mongodb-usuario-chatia.onrender.com', { // Atualize a URL se necessário
+                    const response = await fetch('https://mongodb-usuario-chatia.onrender.com/api/db_chatChef_historico', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -90,67 +90,75 @@
     </script>
     <style>
         body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-    margin: 0;
-    padding: 20px;
-}
-h1 {
-    color: #4d749d;
-    align-content: center;
-    background-color: #6ab7c5;
-    width: 100%;
-    height: 70px;
-    margin: 0px;
-    text-align: center;
-}
-#userInput{
-    width: 75%;
-    height: 30px;
-}
-#inputArea {
-    margin-top: 20px;
-    text-align: center;
-    
-}
-#blocoFora{
-    width: 100%;
-    margin: 0px;
-    display: grid;
-    
-}
-#outputArea1 {
-    margin-top: 20px;
-    margin-left: 100px;
-    text-align: start;
-    border: 1px solid #ddd;
-    background-color: #b6d7f2;
-    width: 700px;
-    
-}
-#outputArea2 {
-    margin-top: 20px;
-    margin-right: 100px;
-    text-align: end;
-    border: 1px solid #ddd;
-    background-color: #7cbcc5;
-    width: 700px;
-    display: flex;
-    justify-self: right;
-}
-#sendMessage {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #6fb3c4;
-    color: white;
-    border: none;
-    cursor: pointer;
-    width: 150px;
-}
-#sendMessage:hover {
-    background-color: #7cc4d6;
-}
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #4d749d;
+            align-content: center;
+            background-color: #6ab7c5;
+            width: 100%;
+            height: 70px;
+            margin: 0px;
+            text-align: center;
+        }
+
+        #userInput {
+            width: 75%;
+            height: 30px;
+        }
+
+        #inputArea {
+            margin-top: 20px;
+            text-align: center;
+
+        }
+
+        #blocoFora {
+            width: 100%;
+            margin: 0px;
+            display: grid;
+
+        }
+
+        #outputArea1 {
+            margin-top: 20px;
+            margin-left: 100px;
+            text-align: start;
+            border: 1px solid #ddd;
+            background-color: #b6d7f2;
+            width: 700px;
+
+        }
+
+        #outputArea2 {
+            margin-top: 20px;
+            margin-right: 100px;
+            text-align: end;
+            border: 1px solid #ddd;
+            background-color: #7cbcc5;
+            width: 700px;
+            display: flex;
+            justify-self: right;
+        }
+
+        #sendMessage {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #6fb3c4;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 150px;
+        }
+
+        #sendMessage:hover {
+            background-color: #7cc4d6;
+        }
     </style>
 </body>
 
