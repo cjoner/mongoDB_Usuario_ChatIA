@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat com o Chef de Cozinha AI</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 </head>
 
@@ -22,6 +23,7 @@
     </div>
 
     <script>
+        
         // Função para salvar o histórico no MongoDB
         function salvarHistorico(userId, message) {
             const data = { userId, message };
@@ -59,7 +61,7 @@
                     const response = await axios.post('https://mongodb-usuario-chatia.onrender.com/api/db_chatChef_historico');
 
                     if (response) {
-                        const data = await response.json();
+                        const data = response;
                         const aiMessageDiv = document.createElement('div');
                         aiMessageDiv.textContent = `Chef de Cozinha AI: ${data.response}`;
                         outputArea2.appendChild(aiMessageDiv);
