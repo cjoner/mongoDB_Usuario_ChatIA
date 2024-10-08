@@ -11,7 +11,8 @@ const corsOptions = {
     allowedHeaders: ['Content-Type'], // Cabeçalhos permitidos
 };
 
-app.use(cors(corsOptions)); // Usar o middleware CORS
+app.use(cors());
+ // Usar o middleware CORS
 
 
 // Resto do código do servidor...
