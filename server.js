@@ -1,15 +1,20 @@
 
 const express = require('express');
-const cors = require('cors'); // Adicione esta linha
+const cors = require('cors'); // Importar o pacote cors
 
 const app = express();
 
-// Configurar CORS para permitir o frontend hospedado no Netlify
-app.use(cors({
-    origin: 'https://chat-ia-chef.netlify.app/public', // Substitua com o domínio do seu frontend
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type'],
-}));
+// Configurar o middleware CORS
+const corsOptions = {
+    origin: 'https://chat-ia-chef.netlify.app', // Permitir apenas este domínio
+    methods: ['GET', 'POST'], // Métodos permitidos
+    allowedHeaders: ['Content-Type'], // Cabeçalhos permitidos
+};
+
+app.use(cors(corsOptions)); // Usar o middleware CORS
+
+
+// Resto do código do servidor...
 
 
 //-------------------CONEXAO MONGODB-------------------------//
@@ -20,7 +25,7 @@ const mongoose = require('mongoose');
 const axios = require('axios'); // Adicionando axios para a requisição do IP público
 const Chat = require('./models/Chat');
 
-const app = express();
+
 app.use(express.json()); // Para lidar com dados JSON no corpo das requisições
 
 // Conectando ao MongoDB
