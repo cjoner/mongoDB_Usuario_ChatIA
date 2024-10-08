@@ -1,3 +1,17 @@
+
+const express = require('express');
+const cors = require('cors'); // Adicione esta linha
+
+const app = express();
+
+// Configurar CORS para permitir o frontend hospedado no Netlify
+app.use(cors({
+    origin: 'https://chat-ia-chef.netlify.app/public', // Substitua com o domínio do seu frontend
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type'],
+}));
+
+
 //-------------------CONEXAO MONGODB-------------------------//
 
 require('dotenv').config();
