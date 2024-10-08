@@ -20,7 +20,7 @@ app.use(cors(corsOptions)); // Usar o middleware CORS com as opções
 //-------------------CONEXAO MONGODB-------------------------//
 
 require('dotenv').config();
-const express = require('express');
+
 const mongoose = require('mongoose');
 const axios = require('axios'); // Adicionando axios para a requisição do IP público
 const Chat = require('./models/Chat');
