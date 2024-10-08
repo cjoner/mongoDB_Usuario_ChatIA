@@ -6,11 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat com o Chef de Cozinha AI</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
 </head>
 
 <body>
-
     <h1>Chat com o Chef de Cozinha AI</h1>
     <div id="blocoFora">
         <div id="outputArea1"></div>
@@ -23,12 +21,11 @@
     </div>
 
     <script>
-
         // Função para salvar o histórico no MongoDB
         function salvarHistorico(userId, message) {
             const data = { userId, message };
 
-            fetch('/api/db_chatChef_historico', {  // Verifique se o endpoint está correto
+            fetch('/api/db_chatChef_historico', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -44,7 +41,6 @@
                 });
         }
 
-
         // Função para enviar a mensagem e obter a resposta do AI
         document.getElementById('sendMessage').addEventListener('click', async function () {
             const userInput = document.getElementById('userInput').value;
@@ -58,14 +54,14 @@
                 outputArea1.appendChild(userMessageDiv);
 
                 try {
-                    const response = await axios.post('https://mongodb-usuario-chatia.onrender.com/api/db_chatChef_historico', 'https://mongodb-usuario-chatia.onrender.com/chat', {
+                    // Faça a chamada correta à API
+                    const response = await axios.post('https://mongodb-usuario-chatia.onrender.com/chat', {
                         message: userInput // Envie a mensagem do usuário para a IA
                     });
 
-                    if (response) {
-                        const data = response;
+                    if (response && response.data) {
                         const aiMessageDiv = document.createElement('div');
-                        aiMessageDiv.textContent = `Chef de Cozinha AI: ${data.response}`;
+                        aiMessageDiv.textContent = `Chef de Cozinha AI: ${response.data.response}`;
                         outputArea2.appendChild(aiMessageDiv);
 
                         // Salvar o histórico de bate-papo
@@ -113,14 +109,12 @@
         #inputArea {
             margin-top: 20px;
             text-align: center;
-
         }
 
         #blocoFora {
             width: 100%;
             margin: 0px;
             display: grid;
-
         }
 
         #outputArea1 {
@@ -130,7 +124,6 @@
             border: 1px solid #ddd;
             background-color: #b6d7f2;
             width: 700px;
-
         }
 
         #outputArea2 {
