@@ -6,13 +6,12 @@ const app = express();
 
 // Configurar o middleware CORS
 const corsOptions = {
-        origin: ['https://chat-ia-chef.netlify.app/public', 'https://mongodb-usuario-chatia.onrender.com'],
-        methods: ['GET', 'POST'], // Métodos permitidos
+    origin: 'https://chat-ia-chef.netlify.app', // Permitir apenas este domínio
+    methods: ['GET', 'POST'], // Métodos permitidos
     allowedHeaders: ['Content-Type'], // Cabeçalhos permitidos
 };
 
-app.use(cors());
- // Usar o middleware CORS
+app.use(cors(corsOptions)); // Usar o middleware CORS com as opções
 
 
 // Resto do código do servidor...
