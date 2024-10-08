@@ -23,7 +23,7 @@
     </div>
 
     <script>
-        
+
         // Função para salvar o histórico no MongoDB
         function salvarHistorico(userId, message) {
             const data = { userId, message };
@@ -58,7 +58,9 @@
                 outputArea1.appendChild(userMessageDiv);
 
                 try {
-                    const response = await axios.post('https://mongodb-usuario-chatia.onrender.com/api/db_chatChef_historico');
+                    const response = await axios.post('https://mongodb-usuario-chatia.onrender.com/api/db_chatChef_historico', 'https://mongodb-usuario-chatia.onrender.com/chat', {
+                        message: userInput // Envie a mensagem do usuário para a IA
+                    });
 
                     if (response) {
                         const data = response;
